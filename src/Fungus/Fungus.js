@@ -202,8 +202,29 @@ export default function Fungus() {
         // --- STEP 1: Fetch main sensor data from your SQL API ---
         const response = await axios.get(
           `${API_BASE_URL}/devices/${selectedDevice.d_id}/history?range=custom&from=${startDate}&to=${endDate}`, // Ensure this endpoint returns raw 24-hour data
+        // --- 1. Robust Date Calculation ---
+        // This method correctly handles month and year changes.
+        const today = new Date();
+        const endDate = new Date(today);
+        const startDate = new Date(today);
+        startDate.setDate(today.getDate() - 7); // Set start date to 7 days ago
+
+        const formatDate = (date) => {
+          const day = String(date.getDate()).padStart(2, '0');
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const year = date.getFullYear();
+          return `${day}-${month}-${year}`;
+        };
+        
+        const formattedStartDate = formatDate(startDate);
+        const formattedEndDate = formatDate(endDate);
+
+        // --- 2. Fetch Data from SQL API ---
+        const response = await axios.get(
+          `${API_BASE_URL}/devices/${selectedDevice.d_id}/history?range=custom&from=${formattedStartDate}&to=${formattedEndDate}`,
           { withCredentials: true }
         );
+        
         // Rename keys to match what processSensorData expects, if necessary
 
         console.log("SQL Data: ",response.data.data);
