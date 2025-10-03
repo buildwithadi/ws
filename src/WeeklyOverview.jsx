@@ -27,7 +27,7 @@ const fetchDeviceData = async (deviceId, range) => {
 
     // getting the data on the basis of start date and end date
     const response = await axios.get(
-      `${API_BASE_URL}/devices/${deviceId}/history?range=${range}`,
+      `${API_BASE_URL}/devices/${deviceId}/history?range=custom&from=${startDate}&to=${endDate}`,
       { withCredentials: true }
     );
 
@@ -177,6 +177,7 @@ export default function WeeklyOverview() {
     { key: 'surfaceHumidity', label: 'Surface Humidity (%)' },
     { key: 'surfaceTemp', label: 'Surface Temperature (°C)' }
   ];
+
 
   return (
     <div className="flex h-screen overflow-hidden bg-white text-black">
