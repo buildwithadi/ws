@@ -65,29 +65,26 @@ export default function Export() {
     const fetchTableData = async () => {
       try {
 
-        // --- 1. Robust Date Calculation ---
-        // This method correctly handles month and year changes.
+        // Get the current date
         const today = new Date();
-        const endDate = new Date(today);
-        const startDate = new Date(today);
-        startDate.setDate(today.getDate() - 7); // Set start date to 7 days ago
 
-        const formatDate = (date) => {
-          const day = String(date.getDate()).padStart(2, '0');
-          const month = String(date.getMonth() + 1).padStart(2, '0');
-          const year = date.getFullYear();
-          return `${day}-${month}-${year}`;
-        };
-        
-        const formattedStartDate = formatDate(startDate);
-        const formattedEndDate = formatDate(endDate);
+        // Get the day, month, and year
+        const day = String(today.getDate()).padStart(2, '0');
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const year = today.getFullYear();
 
-        // --- 2. Fetch Data from SQL API ---
+        // Assemble the formatted date string
+        const endDate = `${day - 1}-${month}-${year}`;
+        const startDate = `${day - 8}-${month}-${year}`;
+
+        console.log(endDate);   // end date
+        console.log(startDate); // start date
+
+        // getting the data on the basis of start date and end date
         const response = await axios.get(
-          `${API_BASE_URL}/devices/${selectedDevice.d_id}/history?range=custom&from=${formattedStartDate}&to=${formattedEndDate}`,
+          `${API_BASE_URL}/devices/${selectedDevice.d_id}/history?range=custom&from=${startDate}&to=${endDate}`,
           { withCredentials: true }
         );
-        
         const data = response.data.data || [];
 
         // Reversing the rows
