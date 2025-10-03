@@ -1,0 +1,7 @@
+{
+  "appId": "in.gridsphere.weather",
+  "appName": "GridSphere Weather",
+  "webDir": "build",
+  "bundledWebRuntime": false
+}
+
