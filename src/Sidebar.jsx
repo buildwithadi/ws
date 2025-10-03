@@ -24,9 +24,8 @@ export default function Sidebar() {
     { label: "Overview", icon: <CalendarDays size={18} />, to: "/weekly" },
     { label: "Export", icon: <Download size={18} />, to: "/export" },
     { label: "Fungus", icon: <Skull size={18} />, to: "/fungus" },
-    { label: "Disease", icon: <Leaf size={18} />, to: "/disease" },
     { label: "Pest", icon: <Bug size={18} />, to: "/pest" },
-    { label: "Spray Timing", icon: <Droplet size={18} />, to: "/spray" }, // ✅ New Section
+    { label: "Spray Timing", icon: <Droplet size={18} />, to: "/spray" }, 
     { label: "User Details", icon: <User2 size={18} />, to: "/user" },
     { label: "Logout", icon: <LogOut size={18} />, to: "/logout" },
   ];

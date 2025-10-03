@@ -178,6 +178,7 @@ export default function WeeklyOverview() {
     { key: 'surfaceTemp', label: 'Surface Temperature (°C)' }
   ];
 
+
   return (
     <div className="flex h-screen overflow-hidden bg-white text-black">
       <div className="hidden md:block w-64 flex-shrink-0 bg-white border-r shadow">
