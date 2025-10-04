@@ -269,7 +269,7 @@ export default function Export() {
                   <th className="p-3 text-left">TEMPERATURE (°C)</th>
                   <th className="p-3 text-left">HUMIDITY (%)</th>
                   <th className="p-3 text-left">LIGHT INTENSITY (lx)</th>
-                  <th className="p-3 text-left">AIR QUALITY INDEX (AQI)</th>
+                  <th className="p-3 text-left">Leafwetness (lwd)</th>
                   <th className="p-3 text-left">RAINFALL (mm)</th>
                   <th className="p-3 text-left">WIND SPEED (m/s)</th>
                   <th className="p-3 text-left">WIND DIRECTION (°)</th>
@@ -292,7 +292,7 @@ export default function Export() {
                       <td className="p-3">{row.temp} °C</td>
                       <td className="p-3">{row.humidity} %</td>
                       <td className="p-3">{row.light_intensity} lx</td>
-                      <td className="p-3">{row.aqi}</td>
+                      <td className="p-3">{row.leafwetness}</td>
                       <td className="p-3">{row.rainfall} mm</td>
                       <td className="p-3">{row.wind_speed} m/s</td>
                       <td className="p-3">

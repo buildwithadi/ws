@@ -38,7 +38,7 @@ const fetchDeviceData = async (deviceId, range) => {
       time: item.timestamp, // adjust if API has a proper timestamp
       temperature: parseFloat(item.temp),
       humidity: parseFloat(item.humidity),
-      aqi: parseFloat(item.aqi),
+      leafwetness: parseFloat(item.leafwetness),
       light: parseFloat(item.light_intensity),
       rainfall: parseFloat(item.rainfall),
       wind: parseFloat(item.wind_speed),
@@ -123,7 +123,7 @@ export default function WeeklyOverview() {
   const parameters = [
     { key: 'temperature', label: 'Temperature (°C)' },
     { key: 'humidity', label: 'Humidity (%)' },
-    { key: 'aqi', label: 'AQI' },
+    { key: 'leafwetness', label: 'leafwetness' },
     { key: 'light', label: 'Light Intensity (lx)' },
     { key: 'rainfall', label: 'Rainfall (mm)' },
     { key: 'wind', label: 'Wind Speed (m/s)' },
