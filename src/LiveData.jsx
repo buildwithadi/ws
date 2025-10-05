@@ -274,7 +274,7 @@ const formatTime = (timestamp, onlyTime = false) => {
 
   {/* Humidity Gauge */}
 <div className="border border-gray-200 p-4 rounded-xl shadow-sm bg-white text-center hover:shadow-lg">
-  <h3 className="text-lg font-semibold text-blue-700 mb-2">Humidity (%)</h3>
+  <h3 className="text-lg font-semibold text-blue-700 mb-2">Humidity</h3>
 
   {liveDataLoading ? (
     <Skeleton className="w-full h-[180px] mx-auto" />
@@ -286,6 +286,7 @@ const formatTime = (timestamp, onlyTime = false) => {
         percent={ (liveData?.humidity ?? 0) / 100}
         colors={["#a7f3d0", "#059669"]}
         arcWidth={0.3}
+        hideText={true}
         textColor="#1f2937"
         style={{ width: "320px", height: "120px", margin: "0 auto" }}
       />
@@ -307,23 +308,6 @@ const formatTime = (timestamp, onlyTime = false) => {
     </>
   )}
 </div>
-
-  {/* AQI Gauge */}
-  <div className="border border-gray-200 p-4 rounded-xl shadow-sm bg-white text-center hover:shadow-lg">
-    <h3 className="text-lg font-semibold text-yellow-700 mb-2">AQI</h3>
-    {liveDataLoading ? (
-      <Skeleton className="w-full h-[180px] mx-auto" />
-    ) : (
-      <GaugeChart
-        id="aqi-gauge"
-        nrOfLevels={4}
-        percent={(liveData?.aqi ?? 0) / 100}
-        colors={["#22c55e", "#facc15", "#ef4444"]}
-        arcWidth={0.3}
-        textColor="#1f2937"
-      />
-    )}
-  </div>
 
   {/* Light Intensity */}
   <div className="border border-gray-200 p-4 rounded-xl shadow-sm bg-white hover:shadow-lg">
