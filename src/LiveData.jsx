@@ -1,18 +1,19 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import GaugeChart from 'react-gauge-chart';
-import {
-  XAxis, YAxis, Tooltip,
-  ResponsiveContainer, BarChart, Bar
-} from 'recharts';
 import {  Loader2 } from 'lucide-react';
-import WindDirectionCard from './WindDirection';
-import RainfallCard from './RainfallCard';
 import DeviceLocation from './DeviceLoactions';
 import { useAuth } from './AuthProvider';
 import API_BASE_URL from './config';
 import axios from 'axios';
 import TempCard from './TempCard';
+import LightIntensityGauge from './liveData/lightIntensity';
+import DepthTemperatureGauge from './liveData/depthTemp';
+import DepthHumidityGauge from './liveData/depthHumidity';
+import SurfaceTemperatureGauge from './liveData/surfaceTemp';
+import SurfaceHumidityGauge from './liveData/surfaceHumidity';
+import WindCompass from './liveData/windCompass';
+import RainfallCard from './liveData/rainfallCard';
 
 export default function LiveData() {
   const { devices, devicesLoading, devicesError} = useAuth();
@@ -152,12 +153,14 @@ useEffect(() => {
 
     result[field] = {
       min: { value: minEntry[field], time: minEntry.timestamp },
-      max: { value: maxEntry[field], time: maxEntry.timestamp },
+      max: { value: maxEntry[field], time: maxEntry.timestamp }
     };
   });
   setNoData(false);
   setExtremes(result);
 }, [historyData]);
+
+// console.log("history data", [historyData[0].temp])
 
 // Format timestamp as Day dd/mm/yy hh:mm AM/PM
 const formatTime = (timestamp, onlyTime = false) => {
@@ -309,53 +312,48 @@ const formatTime = (timestamp, onlyTime = false) => {
   )}
 </div>
 
-  {/* Light Intensity */}
-  <div className="border border-gray-200 p-4 rounded-xl shadow-sm bg-white hover:shadow-lg">
-    <h3 className="text-lg font-semibold text-indigo-700 mb-2">Light Intensity (Lux)</h3>
-    {liveDataLoading ? (
-      <Skeleton className="w-full h-[200px]" />
-    ) : (
-      <div style={{ width: '100%', aspectRatio: '2 / 1' }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={[{ name: liveData?.light_intensity, value: liveData?.light_intensity }]}>
-            <XAxis dataKey="name" stroke="#4b5563" />
-            <YAxis stroke="#4b5563" />
-            <Tooltip />
-            <Bar dataKey="value" fill="#6366f1" radius={[4, 4, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
+  
 
-    )}
-  </div>
+  {/* Light Intensity */}
+  <LightIntensityGauge luxValue={liveData?.light_intensity}></LightIntensityGauge>
 
   {/* Rainfall */}
-  
-  <RainfallCard liveDataLoading = {liveDataLoading} rainfall={liveData?.rainfall}/>
-  
+  <RainfallCard rainfallValue={2} />  
 
   {/* Wind Direction */}
-  <WindDirectionCard liveDataLoading={liveDataLoading} windDirection={liveData?.wind_direction} windSpeed={liveData?.wind_speed}/>
+  <WindCompass windSpeed={liveData?.wind_speed} windDirection={liveData?.wind_direction} />
 
   {/* Surface & Depth Metrics */}
-  {[
-    { label: "Depth Humidity", value: liveData?.depth_humidity, color: "text-green-700" },
-    { label: "Depth Temperature", value: liveData?.depth_temp, color: "text-green-700" },
-    { label: "Surface Humidity", value: liveData?.surface_humidity, color: "text-green-700" },
-    { label: "Surface Temperature", value: liveData?.surface_temp, color: "text-green-700" },
-  ].map((item, idx) => (
-    <div
-      key={idx}
-      className="border border-gray-200 p-4 rounded-xl shadow-sm bg-white hover:shadow-lg"
-    >
-      <h3 className="text-lg font-semibold text-gray-700 mb-1">{item.label}</h3>
-      {liveDataLoading ? (
-        <Skeleton className="w-16 h-8" />
-      ) : (
-        <p className={`text-3xl font-bold ${item.color}`}>{item.value}</p>
-      )}
-    </div>
-  ))}
+  <DepthTemperatureGauge 
+    tempValue={liveData?.depth_temp}
+    minValue={extremes?.depth_temp?.min.value} 
+    minTime={extremes?.depth_temp?.min.time} 
+    maxValue={extremes?.depth_temp?.max.value}
+    maxTime={extremes?.depth_temp?.max.time}/>
+
+  <DepthHumidityGauge 
+    humidityValue={liveData?.depth_humidity} 
+    minValue={extremes?.depth_humidity?.min.value} 
+    minTime={extremes?.depth_humidity?.min.time} 
+    maxValue={extremes?.depth_humidity?.max.value}
+    maxTime={extremes?.depth_humidity?.max.time}
+  />
+
+  <SurfaceTemperatureGauge 
+    tempValue={liveData?.surface_temp}
+    minValue={extremes?.surface_temp?.min.value} 
+    minTime={extremes?.surface_temp?.min.time} 
+    maxValue={extremes?.surface_temp?.max.value}
+    maxTime={extremes?.surface_temp?.max.time}
+  />
+
+  <SurfaceHumidityGauge 
+    humidityValue={liveData?.surface_humidity} 
+    minValue={extremes?.surface_humidity?.min.value} 
+    minTime={extremes?.surface_humidity?.min.time} 
+    maxValue={extremes?.surface_humidity?.max.value}
+    maxTime={extremes?.surface_humidity?.max.time}
+     />
 </div>
 
           </>
