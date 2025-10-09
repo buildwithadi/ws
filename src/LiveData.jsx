@@ -318,7 +318,7 @@ const formatTime = (timestamp, onlyTime = false) => {
   <LightIntensityGauge luxValue={liveData?.light_intensity}></LightIntensityGauge>
 
   {/* Rainfall */}
-  <RainfallCard rainfallValue={2} />  
+  <RainfallCard rainfallValue={liveData?.rainfall} />  
 
   {/* Wind Direction */}
   <WindCompass windSpeed={liveData?.wind_speed} windDirection={liveData?.wind_direction} />
