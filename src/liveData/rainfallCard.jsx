@@ -40,13 +40,36 @@ const RainEffect = ({ count = 50, heavy = false }) => {
 
 const ThunderstormEffect = () => <div className="lightning"></div>;
 
+const ClearSkyEffect = () => {
+    const clouds = React.useMemo(() => 
+        Array.from({ length: 5 }).map((_, i) => ({
+            id: i,
+            top: `${10 + Math.random() * 50}%`,
+            left: `${Math.random() * 100}%`,
+            width: `${100 + Math.random() * 100}px`,
+            height: `${40 + Math.random() * 40}px`,
+            animationDuration: `${20 + Math.random() * 20}s`,
+            animationDelay: `${Math.random() * -40}s`
+        })), []);
+
+    return (
+        <div className="absolute inset-0 z-0 overflow-hidden">
+            
+            {clouds.map(cloud => (
+                <div key={cloud.id} className="cloud" style={cloud}></div>
+            ))}
+        </div>
+    );
+};
+
 // --- The Main Rainfall Component ---
 const RainfallCard = ({ rainfallValue }) => {
-    const displayValue = (rainfallValue);
+    const displayValue = rainfallValue;
     const details = getRainDetails(displayValue);
 
     return (
-        <div className={`relative ${details.bg} rounded-xl shadow-xl p-8 flex flex-col justify-center items-center text-center overflow-hidden transition-all duration-500 h-full`}>
+        <div className={`relative ${details.bg} rounded-xl p-8 border-2 border-white flex flex-col justify-center items-center text-center overflow-hidden transition-all duration-500 shadow-md transition duration-300 ease-in-out hover:shadow-lg`}>
+            {details.state === 'none' && <ClearSkyEffect />}
             {details.state === 'light' && <RainEffect />}
             {details.state === 'heavy' && <><RainEffect count={150} heavy={true} /><ThunderstormEffect /></>}
 

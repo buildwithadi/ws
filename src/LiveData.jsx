@@ -14,6 +14,12 @@ import SurfaceTemperatureGauge from './liveData/surfaceTemp';
 import SurfaceHumidityGauge from './liveData/surfaceHumidity';
 import WindCompass from './liveData/windCompass';
 import RainfallCard from './liveData/rainfallCard';
+import DeviceInfoCard from './liveData/deviceInfo';
+import SimpleHumidityCard from './liveData/humidity';
+
+const now = new Date();
+const currentHour = now.getHours();
+
 
 export default function LiveData() {
   const { devices, devicesLoading, devicesError} = useAuth();
@@ -160,6 +166,8 @@ useEffect(() => {
   setExtremes(result);
 }, [historyData]);
 
+// console.log('time',liveData?.timestamp)
+
 // console.log("history data", [historyData[0].temp])
 
 // Format timestamp as Day dd/mm/yy hh:mm AM/PM
@@ -181,7 +189,7 @@ const formatTime = (timestamp, onlyTime = false) => {
   return `${time}`;
 };
 
-
+  console.log('x',extremes?.humidity?.min.value)
 
   const Skeleton = ({ className }) => (
     <div className={`bg-gray-200 rounded animate-pulse ${className}`} />
@@ -258,15 +266,11 @@ const formatTime = (timestamp, onlyTime = false) => {
           <>
             {/* Device Info Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-              <div className="border p-4 rounded shadow hover:shadow-lg">
-                <h2 className="text-lg font-semibold mb-2 text-green-700">Device Info</h2>
-                <p><strong>ID:</strong> {selectedDevice?.d_id}</p>
-                <p><strong>Status:</strong> {selectedDevice?.device_status}</p>
-                <p><strong>Last Seen:</strong> {formatTime(selectedDevice?.last_seen)}</p>
-              </div>
-
+              <DeviceInfoCard selectedDevice={selectedDevice} hour={22}/>
               <DeviceLocation selectedDevice={selectedDevice} />
             </div>
+
+            
 
             
             {/* Sensor Data Cards */}
@@ -275,50 +279,19 @@ const formatTime = (timestamp, onlyTime = false) => {
   {/* Temperature Card */}
   <TempCard liveData={liveData} liveDataLoading={liveDataLoading} extremes={extremes} noData = {noData}/>
 
-  {/* Humidity Gauge */}
-<div className="border border-gray-200 p-4 rounded-xl shadow-sm bg-white text-center hover:shadow-lg">
-  <h3 className="text-lg font-semibold text-blue-700 mb-2">Humidity</h3>
-
-  {liveDataLoading ? (
-    <Skeleton className="w-full h-[180px] mx-auto" />
-  ) : (
-    <>
-      <GaugeChart
-        id="humidity-gauge"
-        nrOfLevels={4}
-        percent={ (liveData?.humidity ?? 0) / 100}
-        colors={["#a7f3d0", "#059669"]}
-        arcWidth={0.3}
-        hideText={true}
-        textColor="#1f2937"
-        style={{ width: "320px", height: "120px", margin: "0 auto" }}
-      />
-
-      <div className="mt-3 space-y-1 text-sm">
-        <p className="flex justify-between">
-          <span className="text-gray-700 font-medium">Minimum</span>
-          <span className={` font-semibold`}>
-            {noData ? "N/A" : `${extremes?.humidity?.min.value}% (${formatTime(extremes?.humidity?.min.time, true)})`}
-          </span>
-        </p>
-        <p className="flex justify-between">
-          <span className="text-gray-700 font-medium">Maximum</span>
-          <span className={`font-semibold`}>
-            {noData ? "N/A" : `${extremes?.humidity?.max.value}% (${formatTime(extremes?.humidity?.max.time, true)})`}
-          </span>
-        </p>
-      </div>
-    </>
-  )}
-</div>
-
-  
+  {/* Rainfall */}
+  <RainfallCard rainfallValue={liveData?.rainfall} /> 
 
   {/* Light Intensity */}
   <LightIntensityGauge luxValue={liveData?.light_intensity}></LightIntensityGauge>
 
-  {/* Rainfall */}
-  <RainfallCard rainfallValue={liveData?.rainfall} />  
+  {/* Humidity Gauge */}
+  <SimpleHumidityCard 
+    humidityValue={liveData?.humidity}
+    minValue={extremes?.humidity?.min.value} 
+    minTime={extremes?.humidity?.min.time} 
+    maxValue={extremes?.humidity?.max.value}
+    maxTime={extremes?.humidity?.max.time} />  
 
   {/* Wind Direction */}
   <WindCompass windSpeed={liveData?.wind_speed} windDirection={liveData?.wind_direction} />
@@ -357,7 +330,7 @@ const formatTime = (timestamp, onlyTime = false) => {
 </div>
 
           </>
-        )}
+        )}  
       </div>
     </div>
   );

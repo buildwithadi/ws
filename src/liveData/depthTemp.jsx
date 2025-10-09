@@ -24,7 +24,7 @@ const DepthTemperatureGauge = ({ tempValue, minValue, minTime, maxValue, maxTime
     const details = getTempDetails(displayTemp);
 
     return (
-        <div className="bg-white border-2 rounded-xl shadow-lg p-8 flex flex-col justify-center items-center text-center">
+        <div className="bg-white border-2 rounded-xl p-8 flex flex-col justify-center items-center text-center shadow-md transition duration-300 ease-in-out hover:shadow-lg">
             <h3 className="text-lg font-semibold text-gray-500 mb-4">Depth Temperature</h3>
             
             <p className="text-7xl font-black text-gray-800">

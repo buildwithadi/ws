@@ -1,6 +1,6 @@
 import React from 'react';
 
-// --- Helper function to get status details based on humidity in % ---
+// --- Simplified helper function to get status details ---
 const getHumidityDetails = (humidity) => {
     if (humidity < 40) return { description: 'Dry', color: 'bg-amber-500', textColor: 'text-amber-500' };
     if (humidity <= 70) return { description: 'Normal', color: 'bg-green-500', textColor: 'text-green-500' };
@@ -8,7 +8,6 @@ const getHumidityDetails = (humidity) => {
 };
 
 // --- Helper function to format time from a timestamp ---
-// (You can replace this with your own more specific time formatting logic if needed)
 const formatTime = (timestamp, isShort = false) => {
     if (!timestamp) return '';
     const date = new Date(timestamp);
@@ -18,20 +17,22 @@ const formatTime = (timestamp, isShort = false) => {
     return date.toLocaleString('en-US');
 };
 
-
-// --- The Enhanced Surface Humidity Gauge Component ---
-const SurfaceHumidityGauge = ({ humidityValue, minValue, minTime, maxValue, maxTime, noData }) => {
+// --- The Enhanced Humidity Component ---
+const SimpleHumidityCard = ({ humidityValue, minValue, minTime, maxValue, maxTime, noData = true }) => {
     const displayHumidity = Math.round(humidityValue || 0);
     const details = getHumidityDetails(displayHumidity);
 
     return (
-        <div className="bg-white rounded-xl p-6 flex flex-col justify-between items-center text-center border-2 shadow-md transition duration-300 ease-in-out hover:shadow-lg">
+        <div className=" bg-white rounded-xl border-2 p-6 flex flex-col justify-between items-center text-center h-full shadow-md transition duration-300 ease-in-out hover:shadow-lg">
             {/* Main Display */}
             <div>
-                <h3 className="text-lg font-semibold text-gray-500 mb-4">Surface Humidity</h3>
-                <p className="text-7xl font-black text-gray-800">
-                    {displayHumidity}%
-                </p>
+                <h3 className="text-lg font-semibold text-gray-500 mb-4">Humidity</h3>
+                <div className="flex items-baseline">
+                    <p className="text-7xl font-black text-gray-800">
+                        {displayHumidity}
+                    </p>
+                    <span className="text-3xl font-bold text-gray-500">%</span>
+                </div>
                 <div className="flex items-center mt-4 justify-center">
                     <div className={`w-3 h-3 rounded-full ${details.color} mr-2`}></div>
                     <p className={`text-lg font-bold ${details.textColor}`}>{details.description}</p>
@@ -57,5 +58,5 @@ const SurfaceHumidityGauge = ({ humidityValue, minValue, minTime, maxValue, maxT
     );
 };
 
-export default SurfaceHumidityGauge;
+export default SimpleHumidityCard;
 

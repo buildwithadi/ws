@@ -25,7 +25,7 @@ const SurfaceTemperatureGauge = ({ tempValue, minValue, minTime, maxValue, maxTi
     const details = getTempDetails(displayTemp);
 
     return (
-        <div className="bg-white rounded-xl shadow-lg p-8 flex flex-col justify-center items-center text-center border-2">
+        <div className="bg-white rounded-xl p-8 flex flex-col justify-center items-center text-center border-2 shadow-md transition duration-300 ease-in-out hover:shadow-lg">
             <h3 className="text-lg font-semibold text-gray-500 mb-4">Surface Temperature</h3>
             
             <p className="text-7xl font-black text-gray-800">
