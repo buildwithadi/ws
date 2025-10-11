@@ -97,3 +97,22 @@
 .moon-animation {
     animation: moon-glow 8s infinite ease-in-out;
 }
+
+/* Device location */
+.leaflet-container {
+    border-radius: 1rem; 
+}
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 20px rgba(59, 130, 246, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    }
+}
+.marker-pulse {
+    animation: pulse 2s infinite;
+}

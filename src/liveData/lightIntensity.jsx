@@ -38,7 +38,7 @@ const LightIntensityGauge = ({ luxValue }) => {
             </div>
 
             {/* Emoji Visualization Area */}
-            <div className="relative z-10 text-8xl emoji-animation" style={{filter: 'drop-shadow(0 5px 15px rgba(0,0,0,0.3))'}}>
+            <div className="relative z-10 text-7xl py-3 emoji-animation" style={{filter: 'drop-shadow(0 5px 15px rgba(0,0,0,0.3))'}}>
                 {details.emoji}
             </div>
 

@@ -1,12 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
-import GaugeChart from 'react-gauge-chart';
 import {  Loader2 } from 'lucide-react';
-import DeviceLocation from './DeviceLoactions';
+import DeviceLocation from './liveData/DeviceLoactions';
 import { useAuth } from './AuthProvider';
 import API_BASE_URL from './config';
 import axios from 'axios';
-import TempCard from './TempCard';
+import TempCard from './liveData/TempCard';
 import LightIntensityGauge from './liveData/lightIntensity';
 import DepthTemperatureGauge from './liveData/depthTemp';
 import DepthHumidityGauge from './liveData/depthHumidity';
@@ -167,36 +166,7 @@ useEffect(() => {
 }, [historyData]);
 
 // console.log('time',liveData?.timestamp)
-
-// console.log("history data", [historyData[0].temp])
-
-// Format timestamp as Day dd/mm/yy hh:mm AM/PM
-const formatTime = (timestamp, onlyTime = false) => {
-  const date = new Date(timestamp);
-
-  const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const dayName = dayNames[date.getDay()];
-
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = String(date.getFullYear()).slice(-2);
-
-  const time = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
-  if(!onlyTime){
-    return `${dayName} ${day}/${month}/${year} ${time}`;
-  }
-  return `${time}`;
-};
-
-  console.log('x',extremes?.humidity?.min.value)
-
-  const Skeleton = ({ className }) => (
-    <div className={`bg-gray-200 rounded animate-pulse ${className}`} />
-  );
-
-
-
+// console.log("history data", historyData)
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -266,8 +236,8 @@ const formatTime = (timestamp, onlyTime = false) => {
           <>
             {/* Device Info Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-              <DeviceInfoCard selectedDevice={selectedDevice} hour={22}/>
-              <DeviceLocation selectedDevice={selectedDevice} />
+              <DeviceInfoCard selectedDevice={selectedDevice} hour={currentHour}/>
+              <DeviceLocation selectedDevice={selectedDevice}  />
             </div>
 
             
@@ -277,7 +247,12 @@ const formatTime = (timestamp, onlyTime = false) => {
             {/* Sensor Data Cards */}
 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pt-6">
   {/* Temperature Card */}
-  <TempCard liveData={liveData} liveDataLoading={liveDataLoading} extremes={extremes} noData = {noData}/>
+  <TempCard 
+    tempValue={liveData?.temp}
+    minValue={extremes?.temp?.min.value} 
+    minTime={extremes?.temp?.min.time} 
+    maxValue={extremes?.temp?.max.value}
+    maxTime={extremes?.temp?.max.time}/>
 
   {/* Rainfall */}
   <RainfallCard rainfallValue={liveData?.rainfall} /> 
